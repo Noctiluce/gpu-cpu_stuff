@@ -60,7 +60,7 @@ __global__ void matrixMulKernelNaive(const float* A, const float* B, float* C,
 __global__ void matrixMulKernelTiled(const float* A, const float* B, float* C,
                                      int M, int N, int K)
 {
-    const int TILE_SIZE = 32;
+    const int TILE_SIZE = 16;
     __shared__ float As[TILE_SIZE][TILE_SIZE];
     __shared__ float Bs[TILE_SIZE][TILE_SIZE];
 
@@ -134,7 +134,7 @@ double measureCPU(Func&& func) {
 void printHeader(const std::string& title) {
     std::cout << "\n" << std::string(90, '=') << "\n";
     std::cout << "  " << title << "\n";
-    std::cout << std::string(90, '=') << "\n";
+    //std::cout << std::string(90, '=') << "\n";
 }
 
 void printResult(int blockSize, const BenchmarkResult& res, int iterations) {
@@ -329,27 +329,27 @@ int main() {
 
     printHeader("VECTOR MULTIPLICATION");
     std::cout << "Size: " << (1 << 24) << " elements (~67 MB)\n";
-    std::cout << std::string(90, '-') << "\n";
+    //std::cout << std::string(90, '-') << "\n";
 
-    for (int bs : {32, 64, 128, 256, 512, 1024}) {
+    for (int bs : { 64}) {
         auto res = benchmarkVector(bs, iterations, 1 << 24);
         printResult(bs, res, iterations);
     }
 
     printHeader("MATRIX MULTIPLICATION (Naive)");
     std::cout << "Size: 1024×1024 × 1024×1024\n";
-    std::cout << std::string(90, '-') << "\n";
+    //std::cout << std::string(90, '-') << "\n";
 
-    for (int bs : {8, 16}) {
+    for (int bs : {16}) {
         auto res = benchmarkMatrix(bs, 5, 1024, 1024, 1024, false);
         printResult(bs, res, 5);
     }
 
     printHeader("MATRIX MULTIPLICATION (Optimized - Tiled)");
     std::cout << "Size: 1024×1024 × 1024×1024\n";
-    std::cout << std::string(90, '-') << "\n";
+    //std::cout << std::string(90, '-') << "\n";
 
-    for (int bs : {32}) {  // 32 works best for TILE_SIZE=32
+    for (int bs : {16}) {  // 32 works best for TILE_SIZE=32
         auto res = benchmarkMatrix(bs, 5, 1024, 1024, 1024, true);
         printResult(bs, res, 5);
     }
