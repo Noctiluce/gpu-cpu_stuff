@@ -97,6 +97,25 @@ __global__ void matrixMulKernelTiled(const float* A, const float* B, float* C,
     }
 }
 
+
+__global__ void matrixMulKernelTiledCoalised(float *a, float* b, float *c,
+                                 int N)
+{
+    const int TILE_DIM = 16;
+    __shared__ float aTile[TILE_DIM][TILE_DIM],
+                     bTile[TILE_DIM][TILE_DIM];
+    int row = blockIdx.y * blockDim.y + threadIdx.y;
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    float sum = 0.0f;
+    aTile[threadIdx.y][threadIdx.x] = a[row*TILE_DIM+threadIdx.x];
+    bTile[threadIdx.y][threadIdx.x] = b[threadIdx.y*N+col];
+    __syncthreads();
+    for (int i = 0; i < TILE_DIM; i++) {
+        sum += aTile[threadIdx.y][i]* bTile[i][threadIdx.x];
+    }
+    c[row*N+col] = sum;
+}
+
 struct BenchmarkResult {
     double cpuTime;
     double gpuTime;
@@ -264,7 +283,8 @@ BenchmarkResult benchmarkMatrix(int blockSize, int iterations, int M, int N, int
 
     double occupancy;
     if (useTiled) {
-        occupancy = calculateOccupancy((const void*)matrixMulKernelTiled, totalThreads, sharedMemSize);
+        //occupancy = calculateOccupancy((const void*)matrixMulKernelTiled, totalThreads, sharedMemSize);
+        occupancy = calculateOccupancy((const void*)matrixMulKernelTiledCoalised, totalThreads, sharedMemSize);
     } else {
         occupancy = calculateOccupancy((const void*)matrixMulKernelNaive, totalThreads);
     }
@@ -283,6 +303,7 @@ BenchmarkResult benchmarkMatrix(int blockSize, int iterations, int M, int N, int
                        (M + blockSize - 1) / blockSize);
 
         if (useTiled) {
+            //matrixMulKernelTiledCoalised<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, N);
             matrixMulKernelTiled<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K);
         } else {
             matrixMulKernelNaive<<<numBlocks, threadsPerBlock>>>(d_A, d_B, d_C, M, N, K);
@@ -353,6 +374,8 @@ int main() {
         auto res = benchmarkMatrix(bs, 5, 1024, 1024, 1024, true);
         printResult(bs, res, 5);
     }
+
+
 
     std::cout << "\n" << std::string(90, '=') << "\n";
 
