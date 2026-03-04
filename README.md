@@ -19,8 +19,7 @@ Each project has its own CMake configuration.
 Example:
 
 ```bash
-bash
-cd gpu_reminder
+cd project_name
 mkdir build && cd build
 cmake ..
 make
