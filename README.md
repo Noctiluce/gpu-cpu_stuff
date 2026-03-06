@@ -9,6 +9,8 @@ The goal is mainly experimental: validating assumptions about GPU architecture, 
 ## Current Project
 
 - [`VectorAndMatricesOperations/`](https://github.com/Noctiluce/gpu_stuff/tree/main/VectorAndMatricesOperations) – Vector and matrix operations to explore GPU behavior, occupancy, and memory optimization.
+- [`GPUConvolution/`](https://github.com/Noctiluce/gpu_stuff/tree/main/GPUConvolution) – CUDA implementation of a 2D convolution, optimized and profiled with NVIDIA Nsight Compute.
+- [`Histogram/`](https://github.com/Noctiluce/gpu_stuff/tree/main/Histogram) – Histogram focused on warp scheduling, atomic contention, shared memory usage, and memory hierarchy behavior.
 
 ---
 
