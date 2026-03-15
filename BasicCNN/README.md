@@ -1,6 +1,7 @@
 
+
 <p align="center">
-  <img src="cnn.gif" width="800" alt="CNN gif"/>
+  <img src="cnn.png" width="800" alt="cnn png"/>
 </p>
 
 # CNN from scratch - C++/CUDA
@@ -144,5 +145,5 @@ CMake auto-detects CUDA and compiles GPU kernels accordingly.
 
 
 <p align="center">
-  <img src="cnn.png" width="800" alt="cnn png"/>
+  <img src="cnn.gif" width="800" alt="cnn gif"/>
 </p>
