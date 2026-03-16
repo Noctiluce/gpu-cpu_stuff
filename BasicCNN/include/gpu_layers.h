@@ -1,7 +1,7 @@
 #pragma once
 #include "tensor.h"
 #include "layers.h"
-#include "mnist_loader.h"   // ← manquait
+#include "mnist_loader.h" 
 #include <vector>
 #include <string>
 #include <cuda_runtime.h>
