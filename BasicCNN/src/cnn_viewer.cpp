@@ -12,10 +12,10 @@
 
 constexpr int WIN_W   = 1920;
 constexpr int WIN_H   = 1080;
-constexpr int PANEL_W = 900;            // panneau gauche
+constexpr int PANEL_W = 900;            
 constexpr int DRAW_W  = WIN_W - PANEL_W;
 constexpr int GRID    = 28;
-constexpr int CELL    = WIN_H / GRID;   // 38 px par cellule
+constexpr int CELL    = WIN_H / GRID;   
 
 const sf::Color BG_DARK  { 245, 244, 240 };
 const sf::Color BG_PANEL { 251, 250, 246 };
