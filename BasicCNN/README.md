@@ -1,7 +1,8 @@
 
 <p align="center">
-  <img src="cnn.gif" width="800" alt="CNN gif"/>
+  <img src="cnn.gif" width="800" alt="cnn gif"/>
 </p>
+
 
 # CNN from scratch - C++/CUDA
 
