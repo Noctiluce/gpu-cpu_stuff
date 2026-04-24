@@ -54,7 +54,6 @@ double bench(const char* label, Fn fn, std::span<const double> data, int runs)
 
 int main()
 {
-    // Allocation et initialisation du tableau
     std::vector<double> data(N, 1);
 
     std::puts("Dependency Chain Benchmark");
